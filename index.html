@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Css3实现表格隔行变色或隔列变色</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font: normal 12px/24px "\5FAE\8F6F\96C5\9ED1";
+            color: #444;
+        }
+
+        table {
+            width: 610px;
+            border: 0;
+            margin: 100px auto 0;
+            text-align: center;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        table th {
+            background: #0090D7;
+            font-weight: normal;
+            line-height: 30px;
+            font-size: 14px;
+            color: #FFF;
+        }
+
+        table tr:nth-child(odd) {
+            background: #F4F4F4;
+        }
+
+        table td:nth-child(even) {
+            color: #C00;
+        }
+
+        table tr:hover {
+            background: #73B1E0;
+            color: #FFF;
+        }
+
+        table td, table th {
+            border: 1px solid #EEE;
+        }
+    </style>
+    <style>
+        /*模态框*/
+        .modal {
+            display: none; /* 默认隐藏 */
+            position: fixed; /* 根据浏览器定位 */
+            z-index: 1; /* 放在顶部 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全宽 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 允许滚动 */
+            background-color: rgba(0, 0, 0, 0.4); /* 背景色 */
+        }
+
+        /*模态框内容*/
+        .modal-content {
+            display: flex; /*采用flexbox布局*/
+            flex-direction: column; /*垂直排列*/
+            position: relative;
+            background-color: #fefefe;
+            margin: 7% auto; /*距顶部15% 水平居中*/
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+            animation: topDown 0.4s; /*自定义动画，从模态框内容上到下出现*/
+        }
+
+        @keyframes topDown {
+            from {
+                top: -250px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        /*模态框头部*/
+        .modal-header {
+            display: flex; /*采用flexbox布局*/
+            flex-direction: row; /*水平布局*/
+            align-items: center; /*内容垂直居中*/
+            justify-content: space-between;
+        }
+
+        /*关闭X 样式*/
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a {
+            font-size: 16px
+        }
+
+        a:link {
+            color: blue;
+            text-decoration: none;
+        }
+
+        a:active{
+            color: red;
+        }
+
+        a:visited {
+            color: purple;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+    <style type="text/css">
+        .baiduMap {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=Xzc5470dtroHwgV1AuQ3u1SnqiSrmrWF"></script>
+</head>
+<body>
+<!-- 触发按钮 -->
+<button id="triggerBtn">添加</button>
+<button id="getAll">查看地图</button>
+<button id="getData">查询数据库</button>
+<table>
+    <tr>
+        <th>名称</th>
+        <th>经度</th>
+        <th>纬度</th>
+        <th>创建人</th>
+        <th>创建时间</th>
+        <th>描述</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+    <tr>
+        <td>天安门</td>
+        <td>116.67</td>
+        <td>39.98</td>
+        <td>admin</td>
+        <td>2018-9-9</td>
+        <td>北京天安门广场</td>
+        <td><a href="javascript:void(0)" onclick="updateView()">修改</a></td>
+    </tr>
+</table>
+<!-- 模态框 -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>编辑</h2>
+            <span id="closeBtn" class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <p></p>
+            <p></p>
+            <div id="r-result">
+                名称: <input id="address" type="text" style="width:100px; margin-right:10px;"/>
+                经度: <input id="longitude" type="text" style="width:100px; margin-right:10px;"/>
+                纬度: <input id="latitude" type="text" style="width:100px; margin-right:10px;"/>
+                描述: <input id="description" type="text" style="width:100px; margin-right:10px;"/>
+                <input type="button" value="添加" onclick="theLocation()"/>
+            </div>
+            <p></p>
+            <p></p>
+            <div id="allmap"  class="baiduMap"></div>
+        </div>
+    </div>
+</div>
+<!-- 模态框2 -->
+<div id="myModal2" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>查询</h2>
+            <span id="closeBtn2" class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <p></p>
+            <p></p>
+            <input id="keyword" type="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="button" value="查询" onclick="clickKey()">&nbsp;&nbsp;&nbsp;<input type="button" value="打印"
+                                                                                       onclick="window.print();">
+            <p></p>
+            <p></p>
+            <div id="allmap1"  class="baiduMap"></div>
+        </div>
+    </div>
+</div>
+<!-- 模态框2 -->
+<div id="myModal3" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>查询</h2>
+            <span id="closeBtn3" class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <p></p>
+            <p></p>
+            <input id="keyword1" type="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="button" value="查询">
+            &nbsp;&nbsp;&nbsp;<input type="button" value="打印" onclick="window.print();">
+            <p></p>
+            <p></p>
+            <div id="allmap2" class="baiduMap"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var lo;
+    var la;
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            lo = r.point.lng;
+            la = r.point.lat;
+            clickmap();
+        }
+        else {
+            alert('failed' + this.getStatus());
+        }
+    }, {enableHighAccuracy: true})
+
+    // 百度地图API功能
+    function clickmap() {
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(this.lo, this.la), 11);
+        //单击获取点击的经纬度
+        map.addEventListener("click", function (e) {
+            document.getElementById("longitude").value = e.point.lng;
+            document.getElementById("latitude").value = e.point.lat;
+        });
+
+    }
+
+</script>
+<script>
+    (function () {
+        /*建立模态框对象*/
+        var modalBox = {};
+        /*获取模态框*/
+        modalBox.modal = document.getElementById("myModal");
+        /*获得trigger按钮*/
+        modalBox.triggerBtn = document.getElementById("triggerBtn");
+        /*获得关闭按钮*/
+        modalBox.closeBtn = document.getElementById("closeBtn");
+        /*模态框显示*/
+        modalBox.show = function () {
+            console.log(this.modal);
+            this.modal.style.display = "block";
+        }
+        /*模态框关闭*/
+        modalBox.close = function () {
+            this.modal.style.display = "none";
+        }
+        /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+        modalBox.outsideClick = function () {
+            var modal = this.modal;
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+        /*模态框初始化*/
+        modalBox.init = function () {
+            var that = this;
+            this.triggerBtn.onclick = function () {
+                that.show();
+            }
+            this.closeBtn.onclick = function () {
+                that.close();
+            }
+            this.outsideClick();
+        }
+        modalBox.init();
+
+    })();
+    (function () {
+        /*建立模态框对象*/
+        var modalBox1 = {};
+        /*获取模态框*/
+        modalBox1.modal = document.getElementById("myModal2");
+        /*获得trigger按钮*/
+        modalBox1.triggerBtn = document.getElementById("getAll");
+        /*获得关闭按钮*/
+        modalBox1.closeBtn = document.getElementById("closeBtn2");
+        /*模态框显示*/
+        modalBox1.show = function () {
+            console.log(this.modal);
+            this.modal.style.display = "block";
+        }
+        /*模态框关闭*/
+        modalBox1.close = function () {
+            this.modal.style.display = "none";
+        }
+        /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+        modalBox1.outsideClick = function () {
+            var modal = this.modal;
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+        /*模态框初始化*/
+        modalBox1.init = function () {
+            var that = this;
+            this.triggerBtn.onclick = function () {
+                that.show();
+            }
+            this.closeBtn.onclick = function () {
+                that.close();
+            }
+            this.outsideClick();
+        }
+        modalBox1.init();
+
+    })();
+    (function () {
+        /*建立模态框对象*/
+        var modalBox2 = {};
+        /*获取模态框*/
+        modalBox2.modal = document.getElementById("myModal3");
+        /*获得trigger按钮*/
+        modalBox2.triggerBtn = document.getElementById("getData");
+        /*获得关闭按钮*/
+        modalBox2.closeBtn = document.getElementById("closeBtn3");
+        /*模态框显示*/
+        modalBox2.show = function () {
+            console.log(this.modal);
+            this.modal.style.display = "block";
+        }
+        /*模态框关闭*/
+        modalBox2.close = function () {
+            this.modal.style.display = "none";
+        }
+        /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+        modalBox2.outsideClick = function () {
+            var modal = this.modal;
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+        /*模态框初始化*/
+        modalBox2.init = function () {
+            var that = this;
+            this.triggerBtn.onclick = function () {
+                that.show();
+            }
+            this.closeBtn.onclick = function () {
+                that.close();
+            }
+            this.outsideClick();
+        }
+        modalBox2.init();
+
+    })();
+</script>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map1 = new BMap.Map("allmap1");
+    map1.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+    var local = new BMap.LocalSearch(map1, {
+        renderOptions: {map: map1}
+    });
+
+    function clickKey() {
+        var keyWorld = document.getElementById("keyword").value;
+        local.search(keyWorld);
+    }
+
+    function updateView() {
+        document.getElementById("triggerBtn").click();
+    }
+</script>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map2 = new BMap.Map("allmap2");
+    map2.centerAndZoom(new BMap.Point(116.40387397,39.91488908), 11);
+    var messages= [ { "name":"zhuge" , "address":"黑龙江哈尔滨", "lo":"116.977854" , "la":"39.921988" },{ "name":"nanshou" , "address":"杭州西湖", "lo":"116.577854" , "la":"39.941988" },{ "name":"admin" , "address":"北京天安门广场向西10000米", "lo":"116.677854" , "la":"39.881988" },{ "name":"root" , "address":"上海浦东机场向北20000米", "lo":"116.637854" , "la":"39.981988"},{ "name":"good" , "address":"南京博物馆向东80000米", "lo":"116.657854" , "la":"39.931988" }];
+    var opts = {
+        width : 250,     // 信息窗口宽度
+        height: 80,     // 信息窗口高度
+        title : "信息窗口" , // 信息窗口标题
+        enableMessage:true//设置允许信息窗发送短息
+    };
+    var name;
+    for(var mes in messages){
+        var marker = new BMap.Marker(new BMap.Point(messages[mes].lo,messages[mes].la));  // 创建标注
+        var content = messages[mes].address;
+        map2.addOverlay(marker);// 将标注添加到地图中
+        name=messages[mes].name;
+        addClickHandler(content,name,marker);
+    }
+    function addClickHandler(content,name,marker){
+        marker.addEventListener("click",function(e){
+            openInfo(content,name,e)}
+        );
+    }
+    function openInfo(content,name,e){
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        opts.title=name;
+        var infoWindow = new BMap.InfoWindow("地址："+content,opts);  // 创建信息窗口对象
+        map2.openInfoWindow(infoWindow,point); //开启信息窗口
+    }
+</script>
